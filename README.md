@@ -21,25 +21,25 @@ What is the problem that you are trying to solve? Why is this project interestin
 
 When hosting social events, preparing to serve guests beverages can be a deceptively daunting task. What do people want to drink? What ingredients do each of the drinks need? How much of each ingredient do I need to buy? How can I make sure that I'm following the law and only serving those over 21? And lastly, how does one make those drinks? Who will make drinks for our guests and when? Our project will hope to answer all these questions by distilling all these questions down to two. What ingredients do I need to buy, and when do I need to refill? This project is intersting because not only does it solve a real-world problem with a tangible solution, but it will feature modularity that will allow users to customize the solution to their own needs.
 
-If Red Bull gives you wings, Prime Hydration is giving you rockets
+"If Red Bull gives you wings, Prime Hydration is giving you rockets."
 
-Welcome to your PRIME
+Welcome to your PRIME.
 
 ### 3. Goals
 
 These are to help guide and direct your progress.
 
-Must Haves
+Core Goals:
 
 1. Have a consistent, controlled, and accurate fluid-dispensing system.
 
-2. Create a user interface that is as simple and light as possible.
+2. Create a user interface that is simple, clean, and intuitive.
 
 3. Design an exterior that allows for easy user entry and replacement of liquids.
 
 4. Find a good balance between speed and precision when making drinks.
 
-Additional
+Reach Goals:
 
 5. Implement variable mixing speeds depending on the beverage.
 
@@ -47,51 +47,80 @@ Additional
 
 7. Program different presets, where users can select which set of drinks the machine can make.
 
-8. Use a distance sensor to sense whether a cup has been placed in the correct position to allow liquid to flow.
+8. Allow the user to create custom drink recipes with preset ingredients to be dispensed.
+
+9. Use a distance sensor to sense whether a cup has been placed in the correct position to allow liquid to flow.
+
+10. Monitor the levels of each ingredient supply and alert the user when it is necessary to replace a certain liquid.
+
+11. Create a mobile interface to wirelessly control the device.
 
 ### 4. Software Requirements Specification (SRS)
 
 Formulate key software requirements here.
 
-1. Intuitive and simple user interface to select which drink to make.
+- Intuitive and simple user interface to select which drink to make. This portion of the software will store a "database" of drink recipes and a current selected recipe to make. It will also use the LCD graphics library from Lab 4 to render this interface onto the LCD screen. 
 
-2. Program that will accurately control the dispensing of different liquids.
+- Program that will accurately control the dispensing of different liquids. This portion of the code will keep track of time in order to ensure accurate liquid measurements given known flow rate. 
 
-3. Program that can handle ID scanning (or breathalyzer input).
+- Program that can handle ID scanning (or breathalyzer input). This portion of the code will read in an input. The ID scanner may require configuration with an external API while the breathalyzer will require the use of ADC.
 
 ### 5. Hardware Requirements Specification (HRS)
 
 Formulate key hardware requirements here.
 
-1. Modular liquid storage system. This is where the various ingredients are stored and should be easy for users to change/refill the contents.
+- MCU: The ATmega328pb will control and coordinate the various components involved in our design.
 
-2. Mixing system. A clean and effective method for mixing the ingredients for a drink.
+- Liquid Dispensing Mechanism: An accurate and consistent system for dispensing the ingredients. This will likely consist of a motor, or some sort of pump and tubing system that extracts liquids from upright bottles. This mechanism requires precise measurement and controlled flow rates to ensure accuracy of drink preparation. The liquid storage system should also be easy for users to change/refill the contents.
 
-3. Liquid dispensing system. An accurate and consistent system for dispensing the ingredients.
+- Mixing System: After ingredients are dispensed into the cup, they will be mixed using a motor. 
+
+- User Interface: The LCD screen is the main component of the user interface. There will be a joystick or other input component for users to interact with the device to select and make drinks.
+
+- Sensors: Sensors and other inputs will detect various parameters such as cup placement, liquid levels, and user identification. 
+
+- Exterior Design: The physical enclosure and materials for the design will house the wiring and components in a compact and aesthetic manner. 
 
 ### 6. MVP Demo
 
 What do you expect to accomplish by the first milestone?
 
-We expect to have a machine that depending on user input, can dispense a subset of available liquids at variable and accurate amounts. 
+We expect to have a machine that depending on user input, can dispense a subset of available liquids at variable and accurate amounts. The LCD screen will display a basic interface and be controlled by an input device such as a joystick.
 
 ### 7. Final Demo
 
 What do you expect to achieve by the final demonstration or after milestone 1?
 
-By the final demonstration, we expect our project to be able to create a drink with no manual input from the user other than their drink of choice. This means that the device will have a UI that the user can traverse using some form of input hardware. Once the user has specified which drink they want, the device will then accurately dispense the ingredients for the specific drink into a cup and then mix it. 
+By the final demonstration, we expect our project to be able to create a drink with no manual input from the user other than their drink of choice. This means that the device will have a UI that the user can traverse using some form of input hardware, such as a joystick. Once the user has specified which drink they want, the device will then accurately dispense the ingredients for the specific drink into a cup and then mix it. 
 
 ### 8. Methodology
 
 What is your approach to the problem?
 
+We plan to use a systematic and iterative approach to simultaneously develop both software and hardware components.
+
+1. Plan: We will begin by outlining the architecture of the system, including sourcing the appropriate hardware components, designing the user interface layout, and planning the software structure.
+
+2. Hardware Development: Beginning with selecting and sourcing the appropriate components, we will assemble and wire these components. Specific modules will include the interface (LCD screen, joystick), drink dispenser (motor), drink mixer (motor), etc.
+
+3. Software Development: Concurrently, we will develop the corresponding software required for controlling each aspect of the device. Specifically, we will write functions to manage user inputs, sensor readings, drink selection, liquid dispensing, mixign operations, etc.
+
+4. Iteration and Testing: Throughout the process of hardware and software development, we will test isolated modules to ensure correctness before integration.
 
 
 ### 9. Components
 
 What major components do you need and why?
 
+LCD Screen - The screen serves as the main user interface, displaying drink options and status updates. It provides visual feedback to users, allowing them to navigate through the drink selection process. 
 
+Joystick (or other input device) - The joystick enables users to interact directly with the interface, selecting drinks and navigating menus.
+
+Motor - The motor will aid in dispensing and mixing liquids in order to maintain accurate control over the flow rate of ingredients. 
+
+Photoresistor - The light sensor detects the presence of a cup in the designated position to prevent spills and inaccuracies.
+
+Ultrasonic Sensor - The distance sensor verifies the amount of liquid in the drink cup and ingredient source containers.
 
 ### 10. Evaluation
 
@@ -108,7 +137,7 @@ Physical Design:
 
 - Are the different components placed in logical places?
 
-- Is it (somewhat) visually appealing?
+- Is it visually appealing?
 
 User Interface/Interaction:
 
@@ -116,7 +145,7 @@ User Interface/Interaction:
 
 - Is the interface quick and responsive to use (not frustrating)?
 
-- Reduce the number of steps and different menus users have to use.
+- How many steps and different menus will users have to use?
 
 Drink Ingredient Dispensing:
 
@@ -138,11 +167,16 @@ This section is to help guide your progress over the next few weeks. Feel free t
 
 | **Week**            | **Task** | **Assigned To**    |
 |----------           |--------- |------------------- |
-| Week 1: 3/24 - 3/31 |          |                    |
-| Week 2: 4/1 - 4/7   |          |                    |
-| Week 3: 4/8 - 4/14  |          |                    |
-| Week 4: 4/15 - 4/21 |          |                    |
-| Week 5: 4/22 - 4/26 |          |                    |
+| Week 1: 3/24 - 3/31 | finalize + order components         |  K + Q                  |
+| | create more detailed plan of attack         | K + Q                   |
+| | design interface| Karen|
+| Week 2: 4/1 - 4/7   | liquid dispension method         |  Karen                  |
+| | LCD screen + joystick setup         | Quinn  
+| Week 3: 4/8 - 4/14  | mix a basic drink         |   Quinn                 |
+| | interactive LCD interface | Karen|
+| Week 4: 4/15 - 4/21 | begin 3D printing external parts         |  Quinn |
+|  | ID scanner or breathalyzer         |  Karen |
+| Week 5: 4/22 - 4/26 | finish up + reach goals         |  K + Q                  |
 
 ### 12. Proposal Presentation
 
