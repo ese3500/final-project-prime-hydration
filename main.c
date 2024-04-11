@@ -17,10 +17,7 @@
 #include "lib\ST7735.h"
 #include "lib\LCD_GFX.h"
 
-volatile uint16_t accent;
-char String[20];
-int xdir = 0;
-int ydir = 0;
+// menu
 const int NUM_INGREDIENTS = 5;
 const int NUM_DRINKS = 3;
 const char *DRINKS[] = {"GIN & TONIC", "LONDON MULE", "TOM COLLINS"};
@@ -30,14 +27,23 @@ const int AMOUNTS[3][5] = {
     {2, 0, 3, 1, 0},   // london mule
     {2, 0, 5, 0, 1}  // tom collins
 };
+
+// other vars
+volatile uint16_t accent;
+char String[20];
 int selectedDrink = 0;
 int drinkStrength = 60;
+int currScreen = 0;  // 0 = select, 1 = ingredients, 2 = making
 
 
 void Initialize() {
 	lcd_init();
 
-    accent = rgb565(147, 186, 219);
+    accent = rgb565(222, 150, 122);
+
+    // set up button 
+    DDRD &= ~(1<<DDD2);  // set input pin (PD2)
+    PORTD |= (1<<PORTD2);  // internal pull up resistor
 
     cli();
 
@@ -45,7 +51,6 @@ void Initialize() {
     ADMUX |= (1<<REFS0);  // Vref = AVcc
     ADCSRA |= ((1<<ADPS0) | (1<<ADPS1) | (1<<ADPS2));
     ADMUX &= ~((1<<MUX0) | (1<<MUX1) | (1<<MUX2) | (1<<MUX3));  // pin C0
-    // ADMUX |= (1<<MUX1);  // pin C1
     ADCSRA |= (1<<ADATE);  // autotriggering of ADC
     DIDR0 |= (1<<ADC0D);  // disable digital input buffer on ADC pin
     ADCSRA |= (1<<ADEN);  // enable ADC
@@ -56,7 +61,6 @@ void Initialize() {
     // draw board
     drawBoard();
     selectScreen();
-    // drinkScreen();
 }
 
 void drawBoard() {
@@ -64,6 +68,7 @@ void drawBoard() {
 }
 
 void selectScreen() {
+    if (currScreen != 0) return;
     // header
     LCD_drawLine((LCD_WIDTH - 20) / 2 - 20, 12, (LCD_WIDTH - 20) / 2 - 5, 12, 0xFFFF);
     LCD_drawString((LCD_WIDTH - 20) / 2, 10, "MENU", 0xFFFF, 0);
@@ -73,25 +78,22 @@ void selectScreen() {
     for (int i = 0; i < sizeof(DRINKS) / sizeof(DRINKS[0]); i++) {
         uint16_t circleColor = (i == selectedDrink) ? accent : 0xFFFF;
         uint8_t y = 35 + i * 20;
-        LCD_drawCircle(10, y + 2, 3, circleColor);
-        LCD_drawString(20, y, DRINKS[i], 0xFFFF, 0);
+        LCD_drawCircle(30, y + 2, 3, circleColor);
+        LCD_drawString(40, y, DRINKS[i], 0xFFFF, 0);
     }
-
-    // strength bar
-    LCD_drawString(100, 50, "STRENGTH", 0xFFFF, 0);
-    LCD_drawBlock(90, 60, 150, 70, 0xFFFF);
-    LCD_drawBlock(90, 60, 90 + 60 * drinkStrength / 100, 70, accent);
 }
 
 void redrawSelect() {
+    if (currScreen != 0) return;
     for (int i = 0; i < sizeof(DRINKS) / sizeof(DRINKS[0]); i++) {
         uint16_t circleColor = (i == selectedDrink) ? accent : 0xFFFF;
         uint8_t y = 35 + i * 20;
-        LCD_drawCircle(10, y + 2, 3, circleColor);
+        LCD_drawCircle(30, y + 2, 3, circleColor);
     }
 }
 
 void drinkScreen() {
+    if (currScreen != 1) return;
     // header
     int drinkLen = strlen(DRINKS[selectedDrink]) * 5;
     LCD_drawLine((LCD_WIDTH - drinkLen) / 2 - 20, 12, (LCD_WIDTH - drinkLen) / 2 - 5, 12, 0xFFFF);
@@ -103,34 +105,56 @@ void drinkScreen() {
     for (int i = 0; i < NUM_INGREDIENTS; i++) {
         if (AMOUNTS[selectedDrink][i] > 0) {
             numIngredient++;
-            uint8_t y = 20 + numIngredient * 20;
-            LCD_drawString(40, y, INGREDIENTS[i], 0xFFFF, 0);
+            uint8_t y = 15 + numIngredient * 20;
+            LCD_drawString(20, y, INGREDIENTS[i], 0xFFFF, 0);
         }
     }
 
     // make button
-    LCD_drawBlock(60, 90, 100, 110, accent);
+    LCD_drawBlock(55, 90, 105, 110, accent);
     LCD_drawString(70, 95, "MAKE", 0xFFFF, accent);
+
+    // strength bar
+    LCD_drawString(100, 30, "STRENGTH", 0xFFFF, 0);
+    LCD_drawBlock(90, 40, 150, 50, 0xFFFF);
+    LCD_drawBlock(90, 40, 90 + 60 * drinkStrength / 100, 50, accent);
+}
+
+void redrawStrength(bool increase) {
+    if (increase) {
+        LCD_drawBlock(90, 40, 90 + 60 * drinkStrength / 100, 50, accent);
+    } else {
+        LCD_drawBlock(90 + 60 * drinkStrength / 100, 40, 150, 50, 0xFFFF);
+    }
 }
 
 void ADCtoDir() {
-    // ADMUX &= ~(1<<MUX1); 
-    if (ADC < 300) {
-        selectedDrink++;
+    if (currScreen == 0) {  // choose drink
+        ADMUX &= ~((1<<MUX0) | (1<<MUX1) | (1<<MUX2) | (1<<MUX3));  // pin C0
+        if (ADC < 300) {
+            selectedDrink++;
+            _delay_ms(100);
+        } else if (ADC > 700) {
+            selectedDrink--;
+            _delay_ms(100);
+        } 
+        if (selectedDrink < 0) {
+            selectedDrink = NUM_DRINKS - 1;
+        } 
+        selectedDrink %= NUM_DRINKS;
         redrawSelect();
-    } else if (ADC > 700) {
-        selectedDrink--;
-        redrawSelect();
-    } 
-    selectedDrink %= NUM_DRINKS;
-    // ADMUX |= (1<<MUX1); 
-    // if (ADC < 400) {
-    //     ydir = -1;
-    // } else if (ADC > 600) {
-    //     ydir = 1;
-    // } else {
-    //     ydir = 0;
-    // }
+    } else if (currScreen == 1) {  // adjust strength
+        ADMUX |= (1<<MUX0);  // pin C1
+        if (ADC < 300) {  // increase
+            drinkStrength++;
+            _delay_ms(50);
+            redrawStrength(true);
+        } else if (ADC > 700) {  // decrease
+            drinkStrength--;
+            _delay_ms(50);
+            redrawStrength(false);
+        } 
+    }
 }
 
 int main(void) {
@@ -138,9 +162,16 @@ int main(void) {
 		
     while (1) {
         ADCtoDir();
-        // sprintf(String, "xdir %i", xdir);
-        // LCD_drawString(60, 2, String, 0xFFFF, 0);
-        // sprintf(String, "ydir %i", ydir);
-        // LCD_drawString(60, 40, String, 0xFFFF, 0);
+        if (!(PIND & (1<<PIND2))) {  // button pressed
+            if (currScreen == 0) {  // select to drink screen
+                currScreen++;
+                drawBoard();
+                drinkScreen();
+                _delay_ms(1000);
+            } else if (currScreen == 1) {  // drink screen to make screen
+                LCD_drawString(58, 95, "MIXING...", 0xFFFF, accent);
+                _delay_ms(1000);
+            }
+        }
     }
 }
