@@ -1,4 +1,4 @@
-<mxfile host="app.diagrams.net" modified="2024-04-12T03:10:37.842Z" agent="Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/123.0.0.0 Safari/537.36" etag="KDy1jLXU6h76cReuWOAV" version="24.2.2" type="github">
+<mxfile host="app.diagrams.net" modified="2024-04-12T03:13:05.626Z" agent="Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/123.0.0.0 Safari/537.36" etag="WRrkK9qq0nsWjCjhvEZO" version="24.2.2" type="github">
   <diagram name="Page-1" id="_Pjzml7Ek-Qz7xHTFI4N">
     <mxGraphModel dx="1077" dy="614" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="850" pageHeight="1100" math="0" shadow="0">
       <root>
@@ -62,12 +62,12 @@
           </mxGeometry>
         </mxCell>
         <mxCell id="GUOITDrn8Km4WmldIUCv-14" value="USB Power (5V)" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#008a00;fontColor=#ffffff;strokeColor=#005700;" vertex="1" parent="1">
-          <mxGeometry x="360" y="170" width="120" height="60" as="geometry" />
+          <mxGeometry x="30" y="310" width="120" height="60" as="geometry" />
         </mxCell>
-        <mxCell id="GUOITDrn8Km4WmldIUCv-15" value="" style="endArrow=classic;html=1;rounded=0;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" edge="1" parent="1" source="GUOITDrn8Km4WmldIUCv-14" target="GUOITDrn8Km4WmldIUCv-1">
+        <mxCell id="GUOITDrn8Km4WmldIUCv-15" value="" style="endArrow=classic;html=1;rounded=0;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=-0.035;entryY=0.54;entryDx=0;entryDy=0;entryPerimeter=0;" edge="1" parent="1" source="GUOITDrn8Km4WmldIUCv-14" target="GUOITDrn8Km4WmldIUCv-1">
           <mxGeometry width="50" height="50" relative="1" as="geometry">
-            <mxPoint x="610" y="340" as="sourcePoint" />
-            <mxPoint x="660" y="290" as="targetPoint" />
+            <mxPoint x="90" y="390" as="sourcePoint" />
+            <mxPoint x="330" y="370" as="targetPoint" />
           </mxGeometry>
         </mxCell>
         <mxCell id="GUOITDrn8Km4WmldIUCv-16" value="Inputs" style="text;html=1;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;" vertex="1" parent="1">
@@ -75,6 +75,15 @@
         </mxCell>
         <mxCell id="GUOITDrn8Km4WmldIUCv-17" value="Outputs" style="text;html=1;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;" vertex="1" parent="1">
           <mxGeometry x="670" y="465" width="60" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="GUOITDrn8Km4WmldIUCv-19" value="Load Cell (adc)" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#1ba1e2;fontColor=#ffffff;strokeColor=#006EAF;" vertex="1" parent="1">
+          <mxGeometry x="360" y="170" width="120" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="GUOITDrn8Km4WmldIUCv-21" value="" style="endArrow=classic;html=1;rounded=0;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" edge="1" parent="1" source="GUOITDrn8Km4WmldIUCv-19" target="GUOITDrn8Km4WmldIUCv-1">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <mxPoint x="650" y="370" as="sourcePoint" />
+            <mxPoint x="700" y="320" as="targetPoint" />
+          </mxGeometry>
         </mxCell>
       </root>
     </mxGraphModel>
