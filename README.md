@@ -59,7 +59,7 @@ Reach Goals:
 
 Formulate key software requirements here.
 
-- Intuitive and simple user interface to select which drink to make. This portion of the software will store a "database" of drink recipes and a current selected recipe to make. It will also use the LCD graphics library from Lab 4 to render this interface onto the LCD screen. 
+- Intuitive and simple user interface to select which drink to make. This portion of the software will store a "database" of drink recipes and a current selected recipe to make. It will also use the LCD graphics library from Lab 4 to render this interface onto the LCD screen. Evaluated based on responsiveness of interface and ease of use.
 
 - Program that will accurately control the dispensing of different liquids. This portion of the code will keep track of time in order to ensure accurate liquid measurements given known flow rate. 
 
@@ -71,15 +71,15 @@ Formulate key hardware requirements here.
 
 - MCU: The ATmega328pb will control and coordinate the various components involved in our design.
 
-- Liquid Dispensing Mechanism: An accurate and consistent system for dispensing the ingredients. This will likely consist of a motor, or some sort of pump and tubing system that extracts liquids from upright bottles. This mechanism requires precise measurement and controlled flow rates to ensure accuracy of drink preparation. The liquid storage system should also be easy for users to change/refill the contents.
+- Liquid Dispensing Mechanism: An accurate and consistent system for dispensing the ingredients. This will consist of a solenoid valve and tubing system that uses gravity to extract liquids from upright bottles. This mechanism requires precise measurement and controlled flow rates to ensure accuracy of drink preparation. The liquid storage system should also be easy for users to change/refill the contents. This will be evaluated based on the accuracy and consistency of the liquid dispensing.
 
-- Mixing System: After ingredients are dispensed into the cup, they will be mixed using a motor. 
+- Mixing System: After ingredients are dispensed into the cup, they will be mixed using a motor. The mixing will be evaluated on whether or not the ingredients are still distinguishable from each other.
 
-- User Interface: The LCD screen is the main component of the user interface. There will be a joystick or other input component for users to interact with the device to select and make drinks.
+- User Interface: The LCD screen is the main component of the user interface. There will be a joystick or other input component for users to interact with the device to select and make drinks. This will be evaluated on whether 
 
-- Sensors: Sensors and other inputs will detect various parameters such as cup placement, liquid levels, and user identification. 
+- Sensors: Sensors and other inputs will detect various parameters such as drink weight/liquid level and (potentially) user identification. 
 
-- Exterior Design: The physical enclosure and materials for the design will house the wiring and components in a compact and aesthetic manner. 
+- Exterior Design: The physical enclosure and materials for the design will house the wiring and components in a compact and aesthetic manner. This will be evaluated based on ease of use and size.
 
 ### 6. MVP Demo
 
