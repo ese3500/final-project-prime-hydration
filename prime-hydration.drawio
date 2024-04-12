@@ -1,6 +1,6 @@
-<mxfile host="app.diagrams.net" modified="2024-04-12T03:35:08.578Z" agent="Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/123.0.0.0 Safari/537.36" etag="xyG4KxyxT_S99BZzjlm3" version="24.2.2" type="github">
+<mxfile host="app.diagrams.net" modified="2024-04-12T15:32:10.170Z" agent="Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/123.0.0.0 Safari/537.36" etag="UuVglACtYIsTF99gHGON" version="24.2.3" type="github">
   <diagram name="Page-1" id="_Pjzml7Ek-Qz7xHTFI4N">
-    <mxGraphModel dx="1562" dy="891" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="850" pageHeight="1100" background="#33001A" math="0" shadow="0">
+    <mxGraphModel dx="1050" dy="699" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="850" pageHeight="1100" background="#33001A" math="0" shadow="0">
       <root>
         <mxCell id="0" />
         <mxCell id="1" parent="0" />
@@ -11,9 +11,9 @@
           <mxGeometry x="200" y="450" width="120" height="60" as="geometry" />
         </mxCell>
         <mxCell id="GUOITDrn8Km4WmldIUCv-3" value="LCD Display" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#a20025;fontColor=#ffffff;strokeColor=#6F0000;" parent="1" vertex="1">
-          <mxGeometry x="360" y="450" width="120" height="60" as="geometry" />
+          <mxGeometry x="360" y="570" width="120" height="60" as="geometry" />
         </mxCell>
-        <mxCell id="GUOITDrn8Km4WmldIUCv-4" value="Joystick (x/y input)" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#1ba1e2;fontColor=#ffffff;strokeColor=#006EAF;" parent="1" vertex="1">
+        <mxCell id="GUOITDrn8Km4WmldIUCv-4" value="Joystick (ADC input)" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#1ba1e2;fontColor=#ffffff;strokeColor=#006EAF;" parent="1" vertex="1">
           <mxGeometry x="210" y="170" width="120" height="60" as="geometry" />
         </mxCell>
         <mxCell id="GUOITDrn8Km4WmldIUCv-5" value="Button" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#1ba1e2;fontColor=#ffffff;strokeColor=#006EAF;" parent="1" vertex="1">
@@ -71,7 +71,7 @@
           </mxGeometry>
         </mxCell>
         <mxCell id="GUOITDrn8Km4WmldIUCv-16" value="&lt;font color=&quot;#ffffff&quot;&gt;Inputs&lt;/font&gt;" style="text;html=1;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;" parent="1" vertex="1">
-          <mxGeometry x="670" y="185" width="60" height="30" as="geometry" />
+          <mxGeometry x="390" y="110" width="60" height="30" as="geometry" />
         </mxCell>
         <mxCell id="GUOITDrn8Km4WmldIUCv-17" value="&lt;font color=&quot;#ffffff&quot;&gt;Outputs&lt;/font&gt;" style="text;html=1;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;" parent="1" vertex="1">
           <mxGeometry x="670" y="465" width="60" height="30" as="geometry" />
@@ -84,6 +84,15 @@
             <mxPoint x="650" y="370" as="sourcePoint" />
             <mxPoint x="700" y="320" as="targetPoint" />
           </mxGeometry>
+        </mxCell>
+        <mxCell id="PIei5LJG7-MpowtV1-rV-1" value="&lt;font color=&quot;#ffffff&quot;&gt;PB0-3&lt;/font&gt;&lt;div&gt;&lt;font color=&quot;#ffffff&quot;&gt;PB5&lt;br&gt;PD6&lt;/font&gt;&lt;/div&gt;" style="text;html=1;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;" vertex="1" parent="1">
+          <mxGeometry x="480" y="585" width="60" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="PIei5LJG7-MpowtV1-rV-2" value="&lt;font color=&quot;#ffffff&quot;&gt;PC0&lt;/font&gt;&lt;div&gt;&lt;font color=&quot;#ffffff&quot;&gt;PC&lt;/font&gt;&lt;span style=&quot;color: rgb(255, 255, 255); background-color: initial;&quot;&gt;1&lt;/span&gt;&lt;/div&gt;" style="text;html=1;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;" vertex="1" parent="1">
+          <mxGeometry x="140" y="185" width="60" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="PIei5LJG7-MpowtV1-rV-3" value="&lt;font color=&quot;#ffffff&quot;&gt;PD2&lt;/font&gt;" style="text;html=1;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;" vertex="1" parent="1">
+          <mxGeometry x="650" y="185" width="60" height="30" as="geometry" />
         </mxCell>
       </root>
     </mxGraphModel>
