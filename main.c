@@ -19,13 +19,14 @@
 
 // menu
 const int NUM_INGREDIENTS = 5;
-const int NUM_DRINKS = 3;
-const char *DRINKS[] = {"GIN & TONIC", "LONDON MULE", "TOM COLLINS"};
-const char *INGREDIENTS[] = {"gin", "tonic water", "club soda", "lime juice", "lemon juice"};
-const int AMOUNTS[3][5] = {
+const int NUM_DRINKS = 4;
+char *DRINKS[] = {"GIN & TONIC", "LONDON MULE", "TOM COLLINS", "SHOT OF GIN"};
+char *INGREDIENTS[] = {"gin", "tonic water", "club soda", "lime juice", "lemon juice"};
+int AMOUNTS[4][5] = {  // ounces
     {2, 4, 0, 0, 0},  // gin and tonic
     {2, 0, 3, 1, 0},   // london mule
-    {2, 0, 5, 0, 1}  // tom collins
+    {2, 0, 5, 0, 1},  // tom collins
+    {2, 0, 0, 0, 0}  // shot of gin
 };
 
 // other vars
@@ -56,30 +57,39 @@ void Initialize() {
     ADCSRA |= (1<<ADEN);  // enable ADC
     ADCSRA |= (1<<ADSC);
 
+    // set up pump PWM
+    // DDRD |= (1 << DDD5);
+	TCCR0A |= (1 << WGM00);
+	TCCR0A &= ~(1 << WGM01);
+	TCCR0B |= (1 << WGM02);  // timer 0 phase correct PWM mode (prescaler 1)
+	TCCR0B |= (1 << CS00);  // no prescaler
+	TCCR0A &= ~(1 << COM0B0);
+	TCCR0A |= (1 << COM0B1);
+    OCR0A = 255;	
+	OCR0B = 255;
+    
+
     sei();
 
     // draw board
-    drawBoard();
-    selectScreen();
-}
-
-void drawBoard() {
     LCD_setScreen(0);
+    menuScreen(false);
 }
 
-void selectScreen() {
+void menuScreen(bool clear) {
+    uint16_t textColor = clear ? 0 : 0xFFFF;
     if (currScreen != 0) return;
     // header
-    LCD_drawLine((LCD_WIDTH - 20) / 2 - 20, 12, (LCD_WIDTH - 20) / 2 - 5, 12, 0xFFFF);
-    LCD_drawString((LCD_WIDTH - 20) / 2, 10, "MENU", 0xFFFF, 0);
-    LCD_drawLine((LCD_WIDTH - 20) / 2 + 25, 12, (LCD_WIDTH - 20) / 2 + 40, 12, 0xFFFF);
+    LCD_drawLine((LCD_WIDTH - 20) / 2 - 20, 12, (LCD_WIDTH - 20) / 2 - 5, 12, textColor);
+    LCD_drawString((LCD_WIDTH - 20) / 2, 10, "MENU", textColor, 0);
+    LCD_drawLine((LCD_WIDTH - 20) / 2 + 25, 12, (LCD_WIDTH - 20) / 2 + 40, 12, textColor);
 
     // print options
     for (int i = 0; i < sizeof(DRINKS) / sizeof(DRINKS[0]); i++) {
-        uint16_t circleColor = (i == selectedDrink) ? accent : 0xFFFF;
+        uint16_t circleColor = clear ? 0 : ((i == selectedDrink) ? accent : textColor);
         uint8_t y = 35 + i * 20;
         LCD_drawCircle(30, y + 2, 3, circleColor);
-        LCD_drawString(40, y, DRINKS[i], 0xFFFF, 0);
+        LCD_drawString(40, y, DRINKS[i], textColor, 0);
     }
 }
 
@@ -146,7 +156,7 @@ void ADCtoDir() {
     } else if (currScreen == 1) {  // adjust strength
         ADMUX |= (1<<MUX0);  // pin C1
         if (ADC < 300) {  // increase
-            drinkStrength++;
+            drinkStrength += 2;
             _delay_ms(50);
             redrawStrength(true);
         } else if (ADC > 700) {  // decrease
@@ -157,6 +167,20 @@ void ADCtoDir() {
     }
 }
 
+void dispenseDrink() {
+    // TODO
+    for (int i = 0; i < NUM_INGREDIENTS; i++) {
+        if (i == 0) {
+            DDRD |= (1 << DDD5);
+            int time = (int) (AMOUNTS[selectedDrink][i] * drinkStrength / 100 * 200);
+            for (int i = 0; i < time; i++) {
+                _delay_ms(50);
+            }
+            DDRD &= ~(1 << DDD5);
+        }
+    }
+}
+
 int main(void) {
 	Initialize();
 		
@@ -164,13 +188,17 @@ int main(void) {
         ADCtoDir();
         if (!(PIND & (1<<PIND2))) {  // button pressed
             if (currScreen == 0) {  // select to drink screen
+                menuScreen(true);
                 currScreen++;
-                drawBoard();
                 drinkScreen();
-                _delay_ms(1000);
+                _delay_ms(200);
             } else if (currScreen == 1) {  // drink screen to make screen
                 LCD_drawString(58, 95, "MIXING...", 0xFFFF, accent);
-                _delay_ms(1000);
+                dispenseDrink();
+                _delay_ms(200);
+                // currScreen = 0;
+                // LCD_setScreen(0);
+                // menuScreen(false);
             }
         }
     }
