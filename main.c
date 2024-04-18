@@ -33,7 +33,7 @@ int AMOUNTS[4][5] = {  // ounces
 volatile uint16_t accent;
 char String[20];
 int selectedDrink = 0;
-int drinkStrength = 60;
+int drinkStrength = 70;
 int currScreen = 0;  // 0 = select, 1 = ingredients, 2 = making
 
 
@@ -157,10 +157,12 @@ void ADCtoDir() {
         ADMUX |= (1<<MUX0);  // pin C1
         if (ADC < 300) {  // increase
             drinkStrength += 2;
+            drinkStrength = (drinkStrength > 100) ? 100 : drinkStrength;
             _delay_ms(50);
             redrawStrength(true);
         } else if (ADC > 700) {  // decrease
-            drinkStrength--;
+            drinkStrength -= 2;
+            drinkStrength = (drinkStrength < 0) ? 0 : drinkStrength;
             _delay_ms(50);
             redrawStrength(false);
         } 
@@ -169,10 +171,11 @@ void ADCtoDir() {
 
 void dispenseDrink() {
     // TODO
+    if (currScreen != 1) return;
     for (int i = 0; i < NUM_INGREDIENTS; i++) {
         if (i == 0) {
             DDRD |= (1 << DDD5);
-            int time = (int) (AMOUNTS[selectedDrink][i] * drinkStrength / 100 * 200);
+            int time = (int) (AMOUNTS[selectedDrink][i] * drinkStrength / 100 * 18);
             for (int i = 0; i < time; i++) {
                 _delay_ms(50);
             }
@@ -196,9 +199,9 @@ int main(void) {
                 LCD_drawString(58, 95, "MIXING...", 0xFFFF, accent);
                 dispenseDrink();
                 _delay_ms(200);
-                // currScreen = 0;
-                // LCD_setScreen(0);
-                // menuScreen(false);
+                LCD_setScreen(0);
+                currScreen = 0;  // menu screen
+                menuScreen(false);
             }
         }
     }

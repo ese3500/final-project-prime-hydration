@@ -59,11 +59,7 @@ Reach Goals:
 
 Formulate key software requirements here.
 
-- Intuitive and simple user interface to select which drink to make. This portion of the software will store a "database" of drink recipes and a current selected recipe to make. It will also use the LCD graphics library from Lab 4 to render this interface onto the LCD screen. Evaluated based on responsiveness of interface and ease of use.
-
-- Program that will accurately control the dispensing of different liquids. This portion of the code will keep track of time in order to ensure accurate liquid measurements given known flow rate. 
-
-- Program that can handle ID scanning (or breathalyzer input). This portion of the code will read in an input. The ID scanner may require configuration with an external API while the breathalyzer will require the use of ADC.
+M
 
 ### 5. Hardware Requirements Specification (HRS)
 
