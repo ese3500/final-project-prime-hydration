@@ -18,19 +18,21 @@
 #include "lib\LCD_GFX.h"
 
 // menu
-const int NUM_INGREDIENTS = 5;
-const int NUM_DRINKS = 4;
-char *DRINKS[] = {"GIN & TONIC", "LONDON MULE", "TOM COLLINS", "SHOT OF GIN"};
-char *INGREDIENTS[] = {"gin", "tonic water", "club soda", "lime juice", "lemon juice"};
-int AMOUNTS[4][5] = {  // ounces
-    {2, 4, 0, 0, 0},  // gin and tonic
-    {2, 0, 3, 1, 0},   // london mule
-    {2, 0, 5, 0, 1},  // tom collins
-    {2, 0, 0, 0, 0}  // shot of gin
+const int NUM_INGREDIENTS = 6;
+const int NUM_DRINKS = 5;
+char *DRINKS[] = {"VODKA CRAN", "COSMOPOLITAN", "CITRUS VODKA SPRITZ", "CRAN LIME COOLER", "SHOT"};
+char *INGREDIENTS[] = {"vodka", "lime juice", "cranberry juice", "triple sec", "simple syrup", "club soda"};
+int AMOUNTS[5][6] = {  // 1 unit = 0.5 ounces
+    {4, 0, 8, 0, 0, 0},  // vodka cran
+    {3, 1, 1, 1, 0, 0},   // cosmo
+    {3, 1, 0, 1, 0, 6},  // citrus vodka spritz
+    {3, 1, 2, 0, 1, 4},  // cran lime
+    {3, 0, 0, 0, 0, 0}  // shot
 };
 
 // other vars
 volatile uint16_t accent;
+int overflow = 0;
 char String[20];
 int selectedDrink = 0;
 int drinkStrength = 70;
@@ -40,13 +42,17 @@ int currScreen = 0;  // 0 = select, 1 = ingredients, 2 = making
 void Initialize() {
 	lcd_init();
 
-    accent = rgb565(222, 150, 122);
+    accent = rgb565(114, 165, 247);
+
+    cli();
 
     // set up button 
     DDRD &= ~(1<<DDD2);  // set input pin (PD2)
     PORTD |= (1<<PORTD2);  // internal pull up resistor
 
-    cli();
+    // set up timer
+	TCCR1B |= (1 << CS10);  // set up timer (no prescaling)
+	TIMSK1 |= (1<<TOIE1);  // enable interrupt for timer overflow
 
     // set up joystick (ADC)
     ADMUX |= (1<<REFS0);  // Vref = AVcc
@@ -67,13 +73,20 @@ void Initialize() {
 	TCCR0A |= (1 << COM0B1);
     OCR0A = 255;	
 	OCR0B = 255;
-    
+
+    // set up other pumps (PD0, PD1, PD3, PD4, PC5)
+    DDRD |= ((1<<DDD0) | (1<<DDD1) | (1<<DDD3) | (1<<DDD4));
+    DDRC |= (1<<DDC5);
 
     sei();
 
     // draw board
     LCD_setScreen(0);
     menuScreen(false);
+}
+
+ISR(TIMER1_OVF_vect) {  // overflow interrupt
+	overflow++;
 }
 
 void menuScreen(bool clear) {
@@ -87,7 +100,7 @@ void menuScreen(bool clear) {
     // print options
     for (int i = 0; i < sizeof(DRINKS) / sizeof(DRINKS[0]); i++) {
         uint16_t circleColor = clear ? 0 : ((i == selectedDrink) ? accent : textColor);
-        uint8_t y = 35 + i * 20;
+        uint8_t y = 28 + i * 20;
         LCD_drawCircle(30, y + 2, 3, circleColor);
         LCD_drawString(40, y, DRINKS[i], textColor, 0);
     }
@@ -97,7 +110,7 @@ void redrawSelect() {
     if (currScreen != 0) return;
     for (int i = 0; i < sizeof(DRINKS) / sizeof(DRINKS[0]); i++) {
         uint16_t circleColor = (i == selectedDrink) ? accent : 0xFFFF;
-        uint8_t y = 35 + i * 20;
+        uint8_t y = 28 + i * 20;
         LCD_drawCircle(30, y + 2, 3, circleColor);
     }
 }
@@ -115,14 +128,14 @@ void drinkScreen() {
     for (int i = 0; i < NUM_INGREDIENTS; i++) {
         if (AMOUNTS[selectedDrink][i] > 0) {
             numIngredient++;
-            uint8_t y = 15 + numIngredient * 20;
+            uint8_t y = 12 + numIngredient * 15;
             LCD_drawString(20, y, INGREDIENTS[i], 0xFFFF, 0);
         }
     }
 
     // make button
-    LCD_drawBlock(55, 90, 105, 110, accent);
-    LCD_drawString(70, 95, "MAKE", 0xFFFF, accent);
+    LCD_drawBlock(55, 100, 105, 120, accent);
+    LCD_drawString(70, 105, "MAKE", 0xFFFF, accent);
 
     // strength bar
     LCD_drawString(100, 30, "STRENGTH", 0xFFFF, 0);
@@ -170,7 +183,6 @@ void ADCtoDir() {
 }
 
 void dispenseDrink() {
-    // TODO
     if (currScreen != 1) return;
     for (int i = 0; i < NUM_INGREDIENTS; i++) {
         if (i == 0) {
@@ -180,6 +192,22 @@ void dispenseDrink() {
                 _delay_ms(50);
             }
             DDRD &= ~(1 << DDD5);
+        } else {
+            if (i == 1) PORTD |= (1 << PORTD0); 
+            if (i == 2) PORTD |= (1 << PORTD1);
+            if (i == 3) PORTD |= (1 << PORTD3);
+            if (i == 4) PORTD |= (1 << PORTD4);
+            if (i == 5) PORTC |= (1 << PORTC5);
+            int time = (int) (AMOUNTS[selectedDrink][i] * 18);
+            for (int i = 0; i < time; i++) {
+                while (overflow < 49);
+                overflow = 0;
+            }
+            if (i == 1) PORTD &= ~(1 << PORTD0); 
+            if (i == 2) PORTD &= ~(1 << PORTD1);
+            if (i == 3) PORTD &= ~(1 << PORTD3);
+            if (i == 4) PORTD &= ~(1 << PORTD4);
+            if (i == 5) PORTC &= ~(1 << PORTC5);
         }
     }
 }
@@ -196,7 +224,7 @@ int main(void) {
                 drinkScreen();
                 _delay_ms(200);
             } else if (currScreen == 1) {  // drink screen to make screen
-                LCD_drawString(58, 95, "MIXING...", 0xFFFF, accent);
+                LCD_drawString(58, 105, "MIXING...", 0xFFFF, accent);
                 dispenseDrink();
                 _delay_ms(200);
                 LCD_setScreen(0);
