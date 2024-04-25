@@ -23,10 +23,10 @@ const int NUM_DRINKS = 5;
 char *DRINKS[] = {"VODKA CRAN", "COSMOPOLITAN", "CITRUS VODKA SPRITZ", "CRAN LIME COOLER", "SHOT"};
 char *INGREDIENTS[] = {"vodka", "lime juice", "cranberry juice", "triple sec", "simple syrup", "club soda"};
 int AMOUNTS[5][6] = {  // 1 unit = 0.5 ounces
-    {4, 0, 8, 0, 0, 0},  // vodka cran
-    {3, 1, 1, 1, 0, 0},   // cosmo
-    {3, 1, 0, 1, 0, 6},  // citrus vodka spritz
-    {3, 1, 2, 0, 1, 4},  // cran lime
+    {4, 0, 4, 0, 0, 8},  // vodka cran
+    {3, 3, 2, 2, 0, 0},   // cosmo
+    {3, 2, 0, 2, 0, 6},  // citrus vodka spritz
+    {3, 2, 3, 0, 2, 4},  // cran lime
     {3, 0, 0, 0, 0, 0}  // shot
 };
 
@@ -46,9 +46,13 @@ void Initialize() {
 
     cli();
 
-    // set up button 
+    // set up button (drinks)
     DDRD &= ~(1<<DDD2);  // set input pin (PD2)
     PORTD |= (1<<PORTD2);  // internal pull up resistor
+	
+	// set up button (mixer)
+	DDRB &= ~(1<<DDB4); // set input pin (PB4)
+	PORTB |= (1<<PORTB4);  // internal pull up resistor
 
     // set up timer
 	TCCR1B |= (1 << CS10);  // set up timer (no prescaling)
@@ -63,7 +67,7 @@ void Initialize() {
     ADCSRA |= (1<<ADEN);  // enable ADC
     ADCSRA |= (1<<ADSC);
 
-    // set up pump PWM
+    // set up motor PWM
     // DDRD |= (1 << DDD5);
 	TCCR0A |= (1 << WGM00);
 	TCCR0A &= ~(1 << WGM01);
@@ -72,11 +76,11 @@ void Initialize() {
 	TCCR0A &= ~(1 << COM0B0);
 	TCCR0A |= (1 << COM0B1);
     OCR0A = 255;	
-	OCR0B = 255;
+	OCR0B = 50;
 
-    // set up other pumps (PD0, PD1, PD3, PD4, PC5)
+    // set up pumps (PD0, PD1, PD3, PD4, PC5, PC4)
     DDRD |= ((1<<DDD0) | (1<<DDD1) | (1<<DDD3) | (1<<DDD4));
-    DDRC |= (1<<DDC5);
+    DDRC |= ((1<<DDC5) | (1<<DDC4));
 
     sei();
 
@@ -185,30 +189,26 @@ void ADCtoDir() {
 void dispenseDrink() {
     if (currScreen != 1) return;
     for (int i = 0; i < NUM_INGREDIENTS; i++) {
+		int time = (int) (AMOUNTS[selectedDrink][i] * 5);
         if (i == 0) {
-            DDRD |= (1 << DDD5);
-            int time = (int) (AMOUNTS[selectedDrink][i] * drinkStrength / 100 * 18);
-            for (int i = 0; i < time; i++) {
-                _delay_ms(50);
-            }
-            DDRD &= ~(1 << DDD5);
-        } else {
-            if (i == 1) PORTD |= (1 << PORTD0); 
-            if (i == 2) PORTD |= (1 << PORTD1);
-            if (i == 3) PORTD |= (1 << PORTD3);
-            if (i == 4) PORTD |= (1 << PORTD4);
-            if (i == 5) PORTC |= (1 << PORTC5);
-            int time = (int) (AMOUNTS[selectedDrink][i] * 18);
-            for (int i = 0; i < time; i++) {
-                while (overflow < 49);
-                overflow = 0;
-            }
-            if (i == 1) PORTD &= ~(1 << PORTD0); 
-            if (i == 2) PORTD &= ~(1 << PORTD1);
-            if (i == 3) PORTD &= ~(1 << PORTD3);
-            if (i == 4) PORTD &= ~(1 << PORTD4);
-            if (i == 5) PORTC &= ~(1 << PORTC5);
-        }
+            time = (int) (AMOUNTS[selectedDrink][i] * drinkStrength / 100 * 18);
+        } 
+		if (i == 0) PORTC |= (1 << PORTC4);
+		if (i == 1) PORTD |= (1 << PORTD0);
+		if (i == 2) PORTD |= (1 << PORTD1);
+		if (i == 3) PORTD |= (1 << PORTD3);
+		if (i == 4) PORTD |= (1 << PORTD4);
+		if (i == 5) PORTC |= (1 << PORTC5);
+		for (int i = 0; i < time; i++) {
+			while (overflow < 6);
+			overflow = 0;
+		}
+		if (i == 0) PORTC &= ~(1 << PORTC4);
+		if (i == 1) PORTD &= ~(1 << PORTD0);
+		if (i == 2) PORTD &= ~(1 << PORTD1);
+		if (i == 3) PORTD &= ~(1 << PORTD3);
+		if (i == 4) PORTD &= ~(1 << PORTD4);
+		if (i == 5) PORTC &= ~(1 << PORTC5);
     }
 }
 
@@ -232,5 +232,10 @@ int main(void) {
                 menuScreen(false);
             }
         }
+		if (!(PINB & (1<<PINB4))) { // enable mixer when button 2 is pressed
+			DDRD |= (1 << DDD5);
+		} else {
+			DDRD &= ~(1 << DDD5);
+		}
     }
 }
