@@ -21,14 +21,21 @@
 const int NUM_INGREDIENTS = 6;
 const int NUM_DRINKS = 5;
 char *DRINKS[] = {"VODKA CRAN", "COSMOPOLITAN", "CITRUS VODKA SPRITZ", "CRAN LIME COOLER", "SHOT"};
-char *INGREDIENTS[] = {"vodka", "lime juice", "cranberry juice", "triple sec", "simple syrup", "club soda"};
+char *INGREDIENTS[] = {"vodka", "lime juice", "simple syrup", "triple sec", "cran juice", "club soda"};
 int AMOUNTS[5][6] = {  // 1 unit = 0.5 ounces
     {4, 0, 4, 0, 0, 8},  // vodka cran
     {3, 3, 2, 2, 0, 0},   // cosmo
     {3, 2, 0, 2, 0, 6},  // citrus vodka spritz
-    {3, 2, 3, 0, 2, 4},  // cran lime
+    {3, 2, 0, 0, 4, 0},  // cran lime
     {3, 0, 0, 0, 0, 0}  // shot
 };
+
+// vodka: 3 = shot (1.5 oz)
+// lime juice
+// cran
+// triple
+// syrup
+// club soda: 6 = 6 oz
 
 // other vars
 volatile uint16_t accent;
@@ -47,8 +54,8 @@ void Initialize() {
     cli();
 
     // set up button (drinks)
-    DDRD &= ~(1<<DDD2);  // set input pin (PD2)
-    PORTD |= (1<<PORTD2);  // internal pull up resistor
+    DDRC &= ~(1<<DDC2);  // set input pin (PD2)
+    PORTC |= (1<<PORTC2);  // internal pull up resistor
 	
 	// set up button (mixer)
 	DDRB &= ~(1<<DDB4); // set input pin (PB4)
@@ -67,7 +74,7 @@ void Initialize() {
     ADCSRA |= (1<<ADEN);  // enable ADC
     ADCSRA |= (1<<ADSC);
 
-    // set up motor PWM
+    // set up mixing motor PWM (PD5)
     // DDRD |= (1 << DDD5);
 	TCCR0A |= (1 << WGM00);
 	TCCR0A &= ~(1 << WGM01);
@@ -76,7 +83,7 @@ void Initialize() {
 	TCCR0A &= ~(1 << COM0B0);
 	TCCR0A |= (1 << COM0B1);
     OCR0A = 255;	
-	OCR0B = 50;
+	OCR0B = 100;
 
     // set up pumps (PD0, PD1, PD3, PD4, PC5, PC4)
     DDRD |= ((1<<DDD0) | (1<<DDD1) | (1<<DDD3) | (1<<DDD4));
@@ -189,15 +196,19 @@ void ADCtoDir() {
 void dispenseDrink() {
     if (currScreen != 1) return;
     for (int i = 0; i < NUM_INGREDIENTS; i++) {
-		int time = (int) (AMOUNTS[selectedDrink][i] * 5);
-        if (i == 0) {
-            time = (int) (AMOUNTS[selectedDrink][i] * drinkStrength / 100 * 18);
-        } 
+		int time = (int) (AMOUNTS[selectedDrink][i] * 30);
+        if (i == 0) time = (int) (time * drinkStrength / 100);
+		if (i == 1) time = (int) (AMOUNTS[selectedDrink][i] * 20);
+		if (i == 2) time = (int) (AMOUNTS[selectedDrink][i] * 30);
+		if (i == 3) time = (int) (AMOUNTS[selectedDrink][i] * 40);
+		if (i == 4) time = (int) (AMOUNTS[selectedDrink][i] * 30);
+		if (i == 5) time = (int) (AMOUNTS[selectedDrink][i] * 30); 
+
 		if (i == 0) PORTC |= (1 << PORTC4);
 		if (i == 1) PORTD |= (1 << PORTD0);
-		if (i == 2) PORTD |= (1 << PORTD1);
+		if (i == 4) PORTD |= (1 << PORTD1);
 		if (i == 3) PORTD |= (1 << PORTD3);
-		if (i == 4) PORTD |= (1 << PORTD4);
+		if (i == 2) PORTD |= (1 << PORTD4);
 		if (i == 5) PORTC |= (1 << PORTC5);
 		for (int i = 0; i < time; i++) {
 			while (overflow < 6);
@@ -205,9 +216,9 @@ void dispenseDrink() {
 		}
 		if (i == 0) PORTC &= ~(1 << PORTC4);
 		if (i == 1) PORTD &= ~(1 << PORTD0);
-		if (i == 2) PORTD &= ~(1 << PORTD1);
+		if (i == 4) PORTD &= ~(1 << PORTD1);
 		if (i == 3) PORTD &= ~(1 << PORTD3);
-		if (i == 4) PORTD &= ~(1 << PORTD4);
+		if (i == 2) PORTD &= ~(1 << PORTD4);
 		if (i == 5) PORTC &= ~(1 << PORTC5);
     }
 }
@@ -217,7 +228,7 @@ int main(void) {
 		
     while (1) {
         ADCtoDir();
-        if (!(PIND & (1<<PIND2))) {  // button pressed
+        if (!(PINC & (1<<PINC2))) {  // button pressed
             if (currScreen == 0) {  // select to drink screen
                 menuScreen(true);
                 currScreen++;

@@ -57,25 +57,51 @@ Reach Goals:
 
 ### 4. Software Requirements Specification (SRS)
 
-Formulate key software requirements here.
+#### Overview
 
-M
+The software requirements for the automated drink mixer include implementing a user-friendly LCD interface with rapid screen rendering for intuitive drink selection, alongside precise control algorithms ensuring accurate dispensing of ingredients within a specified volume range to guarantee consistently crafted beverages. 
+
+#### Users
+
+The primary users include individuals or groups who frequently host social events or gatherings where beverages are served.
+
+#### Definitions, Abbreviations
+N/A
+
+#### Functionality
+
+SRS 01 - The user interface shall use the LCD graphics library to render each screen within 2 seconds. The interface shall be intuitive and simple such that users naturally navigate through which drink to make without any exterior feedback necessary.
+
+SRS 02 - The program shall accurate control the dispensing of different liquids through timing with overflow interrupts such that each ingredient is dispensed in under 3 seconds and to within +/- 0.2 oz of the specified volume amount.
+
 
 ### 5. Hardware Requirements Specification (HRS)
 
-Formulate key hardware requirements here.
+#### Overview
 
-- MCU: The ATmega328pb will control and coordinate the various components involved in our design.
+The hardware requirements entail integrating an ATmega328PB microcontroller for central control, coupled with DC brushless pumps and a servo motor for accurate liquid dispensing and mixing, all enclosed within a compact, aesthetically pleasing enclosure featuring a LCD display and intuitive input components such as a joystick and buttons for seamless user interaction.
 
-- Liquid Dispensing Mechanism: An accurate and consistent system for dispensing the ingredients. This will consist of a solenoid valve and tubing system that uses gravity to extract liquids from upright bottles. This mechanism requires precise measurement and controlled flow rates to ensure accuracy of drink preparation. The liquid storage system should also be easy for users to change/refill the contents. This will be evaluated based on the accuracy and consistency of the liquid dispensing.
+#### Definitions, Abbreviations
+N/A
 
-- Mixing System: After ingredients are dispensed into the cup, they will be mixed using a motor. The mixing will be evaluated on whether or not the ingredients are still distinguishable from each other.
+#### Functionality
+HRS 01 - Project shall be controlled by an ATmega328PB microcontroller.
 
-- User Interface: The LCD screen is the main component of the user interface. There will be a joystick or other input component for users to interact with the device to select and make drinks. This will be evaluated on whether 
+HRS 02 - Project shall be powered via a 12V power supply from a wall outlet connection, compatible with the microcontroller.
 
-- Sensors: Sensors and other inputs will detect various parameters such as drink weight/liquid level and (potentially) user identification. 
+HRS 03 - DC brushless pumps shall be used for accurate and consistent fluid dispension. Each ingredient shall be dispensed in under 3 seconds and to within +/- 0.2 oz of the specified volume amount.
 
-- Exterior Design: The physical enclosure and materials for the design will house the wiring and components in a compact and aesthetic manner. This will be evaluated based on ease of use and size.
+HRS 04 - An 5.5 by 3.5 cm LCD display shall be used for user interface. The display shall communicate with the microcontroller via pin connections.
+
+HRS 05 - A joystick and buttons shall serve as the input components to control the user interface. The joystick shall be used in the y direction to navigate the drink menu and used in the x direction to adjust the drink strength. The first button shall be used for drink selection and the second button shall be used to control the mixing motor.
+
+HRS 06 - A servo motor shall serve as a mixing tool for users to mix drinks. The motor shall mix the drink such that ingredients are no longer visually distinguishable from each other.
+
+HRS 07 - The physical enclosure should house the wiring and components in a compact and aesthetic manner. The overall device should not exceed 30 x 30 x 30 cm large.
+
+HRS 08 - Bottles openings should be accessible for users to easily change and refill ingredient contents. 
+
+HRS 09 - An ultrasonic sensor should detect liquid level for increased precision of liquid dispension. 
 
 ### 6. MVP Demo
 
