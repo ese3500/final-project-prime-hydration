@@ -30,13 +30,6 @@ int AMOUNTS[5][6] = {  // 1 unit = 0.5 ounces
     {3, 0, 0, 0, 0, 0}  // shot
 };
 
-// vodka: 3 = shot (1.5 oz)
-// lime juice
-// cran
-// triple
-// syrup
-// club soda: 6 = 6 oz
-
 // other vars
 volatile uint16_t accent;
 int overflow = 0;
@@ -196,6 +189,7 @@ void ADCtoDir() {
 void dispenseDrink() {
     if (currScreen != 1) return;
     for (int i = 0; i < NUM_INGREDIENTS; i++) {
+        // calibrate amount based on specific pump
 		int time = (int) (AMOUNTS[selectedDrink][i] * 30);
         if (i == 0) time = (int) (time * drinkStrength / 100);
 		if (i == 1) time = (int) (AMOUNTS[selectedDrink][i] * 20);

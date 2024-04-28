@@ -1,33 +1,49 @@
-[![Review Assignment Due Date](https://classroom.github.com/assets/deadline-readme-button-24ddc0f5d75046c5622901739e7c5dd533143b0c8e959d652212380cedb1ea36.svg)](https://classroom.github.com/a/2TmiRqwI)
-# final-project-skeleton
+# ESE 3500 Final Project
 
     * Team Name: PRIME Hydration
     * Team Members: Karen Li, Quinn Liu
     * Github Repository URL: https://github.com/ese3500/final-project-prime-hydration
-    * Github Pages Website URL: [for final submission]
-    * Description of hardware: (embedded hardware, laptop, etc) 
+    * Github Pages Website URL: https://ese3500.github.io/final-project-prime-hydration/
+    * Description of hardware: ATmega328PB
+
+## Final Project Report
+
+### 1. Video
+
+[Insert final project video here]
+
+### 2. Images
+
+[Insert final project images here]
+
+### 3. Results
+
+What were your results? Namely, what was the final solution/design to your problem?
+
+#### 3.1 Software Requirements Specification (SRS) Results
+
+Based on your quantified system performance, comment on how you achieved or fell short of your expected software requirements. You should be quantifying this, using measurement tools to collect data.
+
+#### 3.2 Hardware Requirements Specification (HRS) Results
+
+Based on your quantified system performance, comment on how you achieved or fell short of your expected hardware requirements. You should be quantifying this, using measurement tools to collect data.
+
+### 4. Conclusion
+
+Reflect on your project. Some questions to consider: What did you learn from it? What went well? What accomplishments are you proud of? What did you learn/gain from this experience? Did you have to change your approach? What could have been done differently? Did you encounter obstacles that you didn’t anticipate? What could be a next step for this project?
+
 
 ## Final Project Proposal
 
 ### 1. Abstract
 
-In a few sentences, describe your final project. This abstract will be used as the description in the evaluation survey forms.
-
 Our final project is an automated alcoholic and non-alcoholic drink mixer meant to take the hassle out of creating fun drinks for you and your friends. This machine will feature an LCD screen to display a custom user interface where users can select which drinks they want to be made, a joystick/button to navigate the user interface, motors to handle the dispensing and mixing of liquids, and lastly an ID scanner (or breathalyzer) to ensure legal consumption. All of these features are meant to take the hassle out of preparing beverages for themselves or guests, and let them "set and forget" their drink menu.  
 
 ### 2. Motivation
 
-What is the problem that you are trying to solve? Why is this project interesting? What is the intended purpose?
-
 When hosting social events, preparing to serve guests beverages can be a deceptively daunting task. What do people want to drink? What ingredients do each of the drinks need? How much of each ingredient do I need to buy? How can I make sure that I'm following the law and only serving those over 21? And lastly, how does one make those drinks? Who will make drinks for our guests and when? Our project will hope to answer all these questions by distilling all these questions down to two. What ingredients do I need to buy, and when do I need to refill? This project is intersting because not only does it solve a real-world problem with a tangible solution, but it will feature modularity that will allow users to customize the solution to their own needs.
 
-"If Red Bull gives you wings, Prime Hydration is giving you rockets."
-
-Welcome to your PRIME.
-
 ### 3. Goals
-
-These are to help guide and direct your progress.
 
 Core Goals:
 
@@ -59,30 +75,27 @@ Reach Goals:
 
 #### Overview
 
-The software requirements for the automated drink mixer include implementing a user-friendly LCD interface with rapid screen rendering for intuitive drink selection, alongside precise control algorithms ensuring accurate dispensing of ingredients within a specified volume range to guarantee consistently crafted beverages. 
+The software requirements for the automated drink mixer include implementing a user-friendly LCD interface with rapid screen rendering for intuitive drink selection, alongside precise control algorithms ensuring accurate dispensing of ingredients within a specified volume range.
 
 #### Users
 
-The primary users include individuals or groups who frequently host social events or gatherings where beverages are served.
-
-#### Definitions, Abbreviations
-N/A
+The primary users include individuals or groups who frequently host social events or gatherings where beverages are served without licensed bartenders.
 
 #### Functionality
 
-SRS 01 - The user interface shall use the LCD graphics library to render each screen within 2 seconds. The interface shall be intuitive and simple such that users naturally navigate through which drink to make without any exterior feedback necessary.
+SRS 01 - User interface shall use an LCD graphics library to render each screen within 3 seconds. The interface shall be intuitive and simple such that users naturally navigate through which drink to make without any exterior feedback necessary.
 
-SRS 02 - The program shall accurate control the dispensing of different liquids through timing with overflow interrupts such that each ingredient is dispensed in under 3 seconds and to within +/- 0.2 oz of the specified volume amount.
+SRS 02 - User interface shall be controlled via a joystick that utilizes ADC with a resolution of at least 8 bits. The joystick shall be responsive in both the x and y directions for adjusting the strength and selected drink, respectively.
 
+SRS 03 - Program shall accurately control the dispensing of different liquids through timing with overflow interrupts such that each ingredient is dispensed in under 3 seconds and to within +/- 0.2 oz of the specified volume amount.
+
+SRS 04 - Program shall utilize PWM to control the speed of the DC motor. 
 
 ### 5. Hardware Requirements Specification (HRS)
 
 #### Overview
 
-The hardware requirements entail integrating an ATmega328PB microcontroller for central control, coupled with DC brushless pumps and a servo motor for accurate liquid dispensing and mixing, all enclosed within a compact, aesthetically pleasing enclosure featuring a LCD display and intuitive input components such as a joystick and buttons for seamless user interaction.
-
-#### Definitions, Abbreviations
-N/A
+The hardware requirements entail integrating an ATmega328PB microcontroller for central control, coupled with DC brushless pumps and a DC motor for accurate liquid dispensing and mixing. The wiring and tubing will all be housed within a compact, aesthetically pleasing enclosure featuring a LCD display and input components such as a joystick and buttons.
 
 #### Functionality
 HRS 01 - Project shall be controlled by an ATmega328PB microcontroller.
@@ -95,7 +108,7 @@ HRS 04 - An 5.5 by 3.5 cm LCD display shall be used for user interface. The disp
 
 HRS 05 - A joystick and buttons shall serve as the input components to control the user interface. The joystick shall be used in the y direction to navigate the drink menu and used in the x direction to adjust the drink strength. The first button shall be used for drink selection and the second button shall be used to control the mixing motor.
 
-HRS 06 - A servo motor shall serve as a mixing tool for users to mix drinks. The motor shall mix the drink such that ingredients are no longer visually distinguishable from each other.
+HRS 06 - A DC motor shall serve as a tool for users to mix drinks. The motor shall incorporate the drink such that ingredients are no longer visually distinguishable from each other.
 
 HRS 07 - The physical enclosure should house the wiring and components in a compact and aesthetic manner. The overall device should not exceed 30 x 30 x 30 cm large.
 
@@ -202,49 +215,10 @@ This section is to help guide your progress over the next few weeks. Feel free t
 
 ### 12. Proposal Presentation
 
-Add your slides to the Final Project Proposal slide deck in the Google Drive.
+Add your slides to the [Final Project Proposal slide deck](https://docs.google.com/presentation/d/1vP77EDReYRDI081ij08neSmqsRK1hWU-YOzkya8o6b0/edit#slide=id.g2c64b0c0173_2_0)
+ in the Google Drive.
 
-## Final Project Report
-
-Don't forget to make the GitHub pages public website!
-If you’ve never made a Github pages website before, you can follow this webpage (though, substitute your final project repository for the Github username one in the quickstart guide):  <https://docs.github.com/en/pages/quickstart>
-
-### 1. Video
-
-[Insert final project video here]
-
-### 2. Images
-
-[Insert final project images here]
-
-### 3. Results
-
-What were your results? Namely, what was the final solution/design to your problem?
-
-#### 3.1 Software Requirements Specification (SRS) Results
-
-Based on your quantified system performance, comment on how you achieved or fell short of your expected software requirements. You should be quantifying this, using measurement tools to collect data.
-
-#### 3.2 Hardware Requirements Specification (HRS) Results
-
-Based on your quantified system performance, comment on how you achieved or fell short of your expected hardware requirements. You should be quantifying this, using measurement tools to collect data.
-
-### 4. Conclusion
-
-Reflect on your project. Some questions to consider: What did you learn from it? What went well? What accomplishments are you proud of? What did you learn/gain from this experience? Did you have to change your approach? What could have been done differently? Did you encounter obstacles that you didn’t anticipate? What could be a next step for this project?
 
 ## References
 
 Fill in your references here as you work on your proposal and final submission. Describe any libraries used here.
-
-## Github Repo Submission Resources
-
-You can remove this section if you don't need these references.
-
-* [ESE5160 Example Repo Submission](https://github.com/ese5160/example-repository-submission)
-* [Markdown Guide: Basic Syntax](https://www.markdownguide.org/basic-syntax/)
-* [Adobe free video to gif converter](https://www.adobe.com/express/feature/video/convert/video-to-gif)
-* [Curated list of example READMEs](https://github.com/matiassingers/awesome-readme)
-* [VS Code](https://code.visualstudio.com/) is heavily recommended to develop code and handle Git commits
-  * Code formatting and extension recommendation files come with this repository.
-  * Ctrl+Shift+V will render the README.md (maybe not the images though)
