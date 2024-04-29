@@ -14,7 +14,10 @@
 
 ### 2. Images
 
-[Insert final project images here]
+![alt text](IMG_0339.JPG)
+![alt text](IMG_0340.JPG)
+![alt text](IMG_0342.JPG)
+![alt text](IMG_0343.JPG)
 
 ### 3. Results
 
@@ -24,9 +27,65 @@ What were your results? Namely, what was the final solution/design to your probl
 
 Based on your quantified system performance, comment on how you achieved or fell short of your expected software requirements. You should be quantifying this, using measurement tools to collect data.
 
+SRS 01 - User interface shall use an LCD graphics library to render each screen within 3 seconds. The interface shall be intuitive and simple such that users naturally navigate through which drink to make without any exterior feedback necessary.
+
+- We achieved this software requirement by implementing a simple 2-menu interface. One for the menu and another for the drink dispensing itself. This resulted in a simple, intuitive, and responsive interface for users.
+
+SRS 02 - User interface shall be controlled via a joystick that utilizes ADC with a resolution of at least 8 bits. The joystick shall be responsive in both the x and y directions for adjusting the strength and selected drink, respectively.
+
+- We achieved this software requirement and were able to navigate through the user interface via a Joystick, using both the x and y directions.
+
+SRS 03 - Program shall accurately control the dispensing of different liquids through timing with overflow interrupts such that each ingredient is dispensed in under 3 seconds and to within +/- 0.2 oz of the specified volume amount.
+
+- We were able to achieve the dispensing of liquids but failed to reach the desired accuracy of +/- 0.2 oz. The real margin of error fell at around +/- 0.4 oz.
+
+SRS 04 - Program shall utilize PWM to control the speed of the DC motor. 
+
+- We were able to generate phase correct PWM using Timer0 to fine tune the desired speed for our DC motor mixer.
+
 #### 3.2 Hardware Requirements Specification (HRS) Results
 
 Based on your quantified system performance, comment on how you achieved or fell short of your expected hardware requirements. You should be quantifying this, using measurement tools to collect data.
+
+HRS 01 - Project shall be controlled by an ATmega328PB microcontroller.
+
+- The project is entirely orchestrated using a single ATmega328PB.
+
+HRS 02 - Project shall be powered via a 12V power supply from a wall outlet connection, compatible with the microcontroller.
+
+- The project's external DC pumps were all powered via the 12V power supply.
+
+HRS 03 - DC brushless pumps shall be used for accurate and consistent fluid dispension. Each ingredient shall be dispensed in under 3 seconds and to within +/- 0.2 oz of the specified volume amount.
+
+- The DC pumps did provide consistent fluid dispension but as reported above, accounted for an accuracy of +/- 0.4 oz.
+
+HRS 04 - An 5.5 by 3.5 cm LCD display shall be used for user interface. The display shall communicate with the microcontroller via pin connections.
+
+- The 5.5 by 3.5 cm LCD was able to display all necessary information.
+
+HRS 05 - A joystick and buttons shall serve as the input components to control the user interface. The joystick shall be used in the y direction to navigate the drink menu and used in the x direction to adjust the drink strength. The first button shall be used for drink selection and the second button shall be used to control the mixing motor.
+
+- All inputs were able to perform their intended duties.
+
+HRS 06 - A DC motor shall serve as a tool for users to mix drinks. The motor shall incorporate the drink such that ingredients are no longer visually distinguishable from each other.
+
+- The mixing apparatus (platic fork) attached to the DC motor was able to properly mix the ingredients of the beverage.
+
+HRS 07 - The physical enclosure should house the wiring and components in a compact and aesthetic manner. The overall device should not exceed 30 x 30 x 30 cm large.
+
+- The housing for the system, not including the external bottles, was 10.25 x 7 x 8 cubic inches, or 26.035 x 17.78 x 20.32 cubic cm.
+
+HRS 08 - Bottles openings should be accessible for users to easily change and refill ingredient contents.
+
+- Bottles featured a twist off cap that allows for easy refilling.
+
+HRS 09 - The system shall be fully waterproof with fluids unable to come in contact with electronics.
+
+- The interior of the system was fully waterproof. The liquid storage system using the bottles, however, was not fully waterproof.
+
+HRS 10 - An ultrasonic sensor should detect liquid level for increased precision of liquid dispension. 
+
+- This feature was not implemented.
 
 ### 4. Conclusion
 
@@ -112,9 +171,11 @@ HRS 06 - A DC motor shall serve as a tool for users to mix drinks. The motor sha
 
 HRS 07 - The physical enclosure should house the wiring and components in a compact and aesthetic manner. The overall device should not exceed 30 x 30 x 30 cm large.
 
-HRS 08 - Bottles openings should be accessible for users to easily change and refill ingredient contents. 
+HRS 08 - Bottles openings should be accessible for users to easily change and refill ingredient contents.
 
-HRS 09 - An ultrasonic sensor should detect liquid level for increased precision of liquid dispension. 
+HRS 09 - The system shall be fully waterproof with fluids unable to come in contact with electronics.
+
+HRS 10 - An ultrasonic sensor should detect liquid level for increased precision of liquid dispension. 
 
 ### 6. MVP Demo
 
