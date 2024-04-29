@@ -10,30 +10,27 @@
 
 ### 1. Video
 
-[Insert final project video here]
+[![alt text](image-2.png)](https://drive.google.com/file/d/1qhdW34o1cAxiLgjZDt4AcLi4pglU0_Z7/view?usp=sharing)
+
 
 ### 2. Images
 
-![alt text](IMG_0339.JPG)
-![alt text](IMG_0340.JPG)
-![alt text](IMG_0342.JPG)
-![alt text](IMG_0343.JPG)
+![alt text](image.png)
+![alt text](image-1.png)
 
 ### 3. Results
 
-What were your results? Namely, what was the final solution/design to your problem?
+The final solution to our problem of automatic drink mixing is a fully enclosed machine controlled via an ATmega328PB microcontroller, featuring an LCD screen interface, controlled via a joystick and buttons. The device accurately dispenses different liquids via DC pumps through timing with overflow interrupts and utilizes PWM to control the speed of the DC motor for mixing. While the dispensing accuracy fell slightly short of the targeted +/- 0.2 oz, the overall functionality met the project requirements.
 
 #### 3.1 Software Requirements Specification (SRS) Results
 
-Based on your quantified system performance, comment on how you achieved or fell short of your expected software requirements. You should be quantifying this, using measurement tools to collect data.
-
 SRS 01 - User interface shall use an LCD graphics library to render each screen within 3 seconds. The interface shall be intuitive and simple such that users naturally navigate through which drink to make without any exterior feedback necessary.
 
-- We achieved this software requirement by implementing a simple 2-menu interface. One for the menu and another for the drink dispensing itself. This resulted in a simple, intuitive, and responsive interface for users.
+- We achieved this software requirement by implementing a simple 2-menu interface. One for the menu and another for the drink dispensing itself. This resulted in a simple, intuitive, and responsive interface for users that rendered within 1 second each, with a transition time of around 2 seconds.
 
 SRS 02 - User interface shall be controlled via a joystick that utilizes ADC with a resolution of at least 8 bits. The joystick shall be responsive in both the x and y directions for adjusting the strength and selected drink, respectively.
 
-- We achieved this software requirement and were able to navigate through the user interface via a Joystick, using both the x and y directions.
+- We achieved this software requirement and were able to navigate through the user interface via a joystick, using both the x and y directions, configured with ADC.
 
 SRS 03 - Program shall accurately control the dispensing of different liquids through timing with overflow interrupts such that each ingredient is dispensed in under 3 seconds and to within +/- 0.2 oz of the specified volume amount.
 
@@ -45,15 +42,13 @@ SRS 04 - Program shall utilize PWM to control the speed of the DC motor.
 
 #### 3.2 Hardware Requirements Specification (HRS) Results
 
-Based on your quantified system performance, comment on how you achieved or fell short of your expected hardware requirements. You should be quantifying this, using measurement tools to collect data.
-
 HRS 01 - Project shall be controlled by an ATmega328PB microcontroller.
 
 - The project is entirely orchestrated using a single ATmega328PB.
 
 HRS 02 - Project shall be powered via a 12V power supply from a wall outlet connection, compatible with the microcontroller.
 
-- The project's external DC pumps were all powered via the 12V power supply.
+- The project's external DC pumps were all powered via the 12V power supply, with each DC motor and pump wired with a MOSFET, diode, and resistor circuit.
 
 HRS 03 - DC brushless pumps shall be used for accurate and consistent fluid dispension. Each ingredient shall be dispensed in under 3 seconds and to within +/- 0.2 oz of the specified volume amount.
 
@@ -61,7 +56,7 @@ HRS 03 - DC brushless pumps shall be used for accurate and consistent fluid disp
 
 HRS 04 - An 5.5 by 3.5 cm LCD display shall be used for user interface. The display shall communicate with the microcontroller via pin connections.
 
-- The 5.5 by 3.5 cm LCD was able to display all necessary information.
+- The 5.5 by 3.5 cm LCD was able to display all necessary information, including a menu of drinks, drink ingredients, and drink strength.
 
 HRS 05 - A joystick and buttons shall serve as the input components to control the user interface. The joystick shall be used in the y direction to navigate the drink menu and used in the x direction to adjust the drink strength. The first button shall be used for drink selection and the second button shall be used to control the mixing motor.
 
@@ -73,7 +68,7 @@ HRS 06 - A DC motor shall serve as a tool for users to mix drinks. The motor sha
 
 HRS 07 - The physical enclosure should house the wiring and components in a compact and aesthetic manner. The overall device should not exceed 30 x 30 x 30 cm large.
 
-- The housing for the system, not including the external bottles, was 10.25 x 7 x 8 cubic inches, or 26.035 x 17.78 x 20.32 cubic cm.
+- The housing for the system, not including the external bottles, was 26 x 18 x 20 cm.
 
 HRS 08 - Bottles openings should be accessible for users to easily change and refill ingredient contents.
 
@@ -81,7 +76,7 @@ HRS 08 - Bottles openings should be accessible for users to easily change and re
 
 HRS 09 - The system shall be fully waterproof with fluids unable to come in contact with electronics.
 
-- The interior of the system was fully waterproof. The liquid storage system using the bottles, however, was not fully waterproof.
+- The interior of the system was fully waterproof. The liquid storage system using the bottles, however, was not fully waterproof and experienced some leakage.
 
 HRS 10 - An ultrasonic sensor should detect liquid level for increased precision of liquid dispension. 
 
@@ -89,7 +84,7 @@ HRS 10 - An ultrasonic sensor should detect liquid level for increased precision
 
 ### 4. Conclusion
 
-Reflect on your project. Some questions to consider: What did you learn from it? What went well? What accomplishments are you proud of? What did you learn/gain from this experience? Did you have to change your approach? What could have been done differently? Did you encounter obstacles that you didn’t anticipate? What could be a next step for this project?
+Reflecting on our project, we successfully integrated hardware and software components to create a functional automated drink mixer, while learning some valuable lessons throughout its development. We are proud of achieving core goals such as intuitive user interface design, fast fluid dispensing, and compact hardware enclosure. However, we encountered some challenges, particularly regarding achieving precise liquid dispensing within the specified tolerances. Despite this, we were able to deliver a working prototype that fulfilled most of the initial project SRS and HRS specifications. While our approach remained relatively consistent throughout the project, more exhaustive testing could have been beneficial to address accuracy issues. Moving forward, potential next steps for this project could include integrating additional sensors for better liquid level detection, and addressing any identified issues to improve the overall user experience.
 
 
 ## Final Project Proposal
@@ -167,31 +162,23 @@ HRS 04 - An 5.5 by 3.5 cm LCD display shall be used for user interface. The disp
 
 HRS 05 - A joystick and buttons shall serve as the input components to control the user interface. The joystick shall be used in the y direction to navigate the drink menu and used in the x direction to adjust the drink strength. The first button shall be used for drink selection and the second button shall be used to control the mixing motor.
 
-HRS 06 - A DC motor shall serve as a tool for users to mix drinks. The motor shall incorporate the drink such that ingredients are no longer visually distinguishable from each other.
+HRS 06 - A DC motor shall be controlled via PWM and serve as a tool for users to mix drinks. The motor shall incorporate the drink such that ingredients are no longer visually distinguishable from each other.
 
 HRS 07 - The physical enclosure should house the wiring and components in a compact and aesthetic manner. The overall device should not exceed 30 x 30 x 30 cm large.
 
-HRS 08 - Bottles openings should be accessible for users to easily change and refill ingredient contents.
+HRS 08 - Bottle openings should be accessible for users to easily change and refill ingredient contents. 
 
-HRS 09 - The system shall be fully waterproof with fluids unable to come in contact with electronics.
-
-HRS 10 - An ultrasonic sensor should detect liquid level for increased precision of liquid dispension. 
+HRS 09 - An ultrasonic sensor should detect liquid level for increased precision of liquid dispension. 
 
 ### 6. MVP Demo
 
-What do you expect to accomplish by the first milestone?
-
-We expect to have a machine that depending on user input, can dispense a subset of available liquids at variable and accurate amounts. The LCD screen will display a basic interface and be controlled by an input device such as a joystick.
+By the first milestone, we expect to have a machine that depending on user input, can dispense a subset of available liquids at variable and accurate amounts. The LCD screen will display a basic interface and be controlled by an input device such as a joystick.
 
 ### 7. Final Demo
-
-What do you expect to achieve by the final demonstration or after milestone 1?
 
 By the final demonstration, we expect our project to be able to create a drink with no manual input from the user other than their drink of choice. This means that the device will have a UI that the user can traverse using some form of input hardware, such as a joystick. Once the user has specified which drink they want, the device will then accurately dispense the ingredients for the specific drink into a cup and then mix it. 
 
 ### 8. Methodology
-
-What is your approach to the problem?
 
 We plan to use a systematic and iterative approach to simultaneously develop both software and hardware components.
 
@@ -206,8 +193,6 @@ We plan to use a systematic and iterative approach to simultaneously develop bot
 
 ### 9. Components
 
-What major components do you need and why?
-
 LCD Screen - The screen serves as the main user interface, displaying drink options and status updates. It provides visual feedback to users, allowing them to navigate through the drink selection process. 
 
 Joystick (or other input device) - The joystick enables users to interact directly with the interface, selecting drinks and navigating menus.
@@ -220,10 +205,7 @@ Ultrasonic Sensor - The distance sensor verifies the amount of liquid in the dri
 
 ### 10. Evaluation
 
-What is your metric for evaluating how well your product/solution solves the problem? Think critically on this section. Having a boolean metric such as “it works” is not very useful. This is akin to making a speaker and if it emits sound, albeit however terrible and ear wrenching, declare this a success.
-It is recommended that your project be something that you can take pride in. Oftentimes in interviews, you will be asked to talk about projects you have worked on.
-
-We believe the success of our device will not just be whether it works, but rather how consistent and easy it is to use. Here is how we would evaluate the different aspects of the project.
+We believe the success of our device will not just be whether it works, but rather how consistent and easy it is to use. Beyond the SRS and HRS specified above, here is how we would evaluate the different aspects of the project.
 
 Physical Design:
 
@@ -255,11 +237,9 @@ Drink Mixing:
 
 General:
 
-- How does it taste?
+- How does the drink taste?
 
 ### 11. Timeline
-
-This section is to help guide your progress over the next few weeks. Feel free to adjust and edit the table below to something that would be useful to you. Really think about what you want to accomplish by the first milestone.
 
 | **Week**            | **Task** | **Assigned To**    |
 |----------           |--------- |------------------- |
@@ -276,10 +256,9 @@ This section is to help guide your progress over the next few weeks. Feel free t
 
 ### 12. Proposal Presentation
 
-Add your slides to the [Final Project Proposal slide deck](https://docs.google.com/presentation/d/1vP77EDReYRDI081ij08neSmqsRK1hWU-YOzkya8o6b0/edit#slide=id.g2c64b0c0173_2_0)
- in the Google Drive.
+[Final Project Proposal slide deck](https://docs.google.com/presentation/d/1vP77EDReYRDI081ij08neSmqsRK1hWU-YOzkya8o6b0/edit#slide=id.g2c64b0c0173_2_0)
 
 
 ## References
 
-Fill in your references here as you work on your proposal and final submission. Describe any libraries used here.
+LCD Library (Lab 4: Pong)
